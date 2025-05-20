@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package p2p;
+
+option go_package = "github.com/hexfusion/spore/proto/pb/p2p";
+
+message Message {
+  oneof message {
+    Version version = 1;
+    PeerList peer_list = 2;
+    Ping ping = 3;
+    Pong pong = 4;
+  }
+}
+
+message PeerList {
+  repeated TrustedPeer peers = 1;
+}
+
+message TrustedPeer {
+  string id = 1;               // Hash of public key
+  bytes public_key = 2;
+  string address = 3;          // Host:port
+  repeated string capabilities = 4; // ["oci-host", "relay"]
+  bytes signature = 5;         // Ed25519 signature over canonical fields
+}
+
+message Ping {}
+
+message Pong {}
