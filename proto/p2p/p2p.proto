@@ -28,3 +28,12 @@ message TrustedPeer {
 message Ping {}
 
 message Pong {}
+
+message Version {
+  string node_id = 1;         // Hash of the public key
+  string agent = 2;           // e.g. "spore-agent/0.1.0"
+  string protocol = 3;        // e.g. "p2p/1"
+  int64 timestamp = 4;        // Unix timestamp
+  bytes public_key = 5;       // Ed25519 public key
+  bytes signature = 6;        // Signature over (node_id + agent + protocol + timestamp)
+}
