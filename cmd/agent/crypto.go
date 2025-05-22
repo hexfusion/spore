@@ -1,20 +1,20 @@
 package main
 
 import (
-	"crypto/ed25519"
-	"crypto/sha256"
-	"encoding/hex"
-	"errors"
+	"bytes"
 	"crypto/ecdsa"
+	"crypto/ed25519"
 	"crypto/elliptic"
 	"crypto/rand"
+	"crypto/sha256"
 	"crypto/tls"
 	"crypto/x509"
+	"encoding/hex"
+	"encoding/pem"
+	"errors"
+	"log"
 	"math/big"
 	"time"
-	"bytes"
-	"encoding/pem"
-	"log"
 
 	pb "github.com/hexfusion/spore/proto/pb/p2p"
 	"google.golang.org/protobuf/proto"

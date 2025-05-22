@@ -10,6 +10,8 @@ message Message {
     PeerList peer_list = 2;
     Ping ping = 3;
     Pong pong = 4;
+    GoAway go_away = 5;
+    Shutdown shutdown = 6;
   }
 }
 
@@ -23,6 +25,15 @@ message TrustedPeer {
   string address = 3;          // Host:port
   repeated string capabilities = 4; // ["oci-host", "relay"]
   bytes signature = 5;         // Ed25519 signature over canonical fields
+}
+
+message GoAway {
+  string reason = 1;
+}
+
+message Shutdown {
+  // Optional reason
+  string reason = 1;
 }
 
 message Ping {}

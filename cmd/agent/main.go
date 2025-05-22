@@ -19,4 +19,3 @@ func main() {
 	runPeerA(ctx)
 	time.Sleep(1 * time.Second)
 }
-
