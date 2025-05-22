@@ -29,6 +29,8 @@ type Message struct {
 	//	*Message_PeerList
 	//	*Message_Ping
 	//	*Message_Pong
+	//	*Message_GoAway
+	//	*Message_Shutdown
 	Message       isMessage_Message `protobuf_oneof:"message"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -107,6 +109,24 @@ func (x *Message) GetPong() *Pong {
 	return nil
 }
 
+func (x *Message) GetGoAway() *GoAway {
+	if x != nil {
+		if x, ok := x.Message.(*Message_GoAway); ok {
+			return x.GoAway
+		}
+	}
+	return nil
+}
+
+func (x *Message) GetShutdown() *Shutdown {
+	if x != nil {
+		if x, ok := x.Message.(*Message_Shutdown); ok {
+			return x.Shutdown
+		}
+	}
+	return nil
+}
+
 type isMessage_Message interface {
 	isMessage_Message()
 }
@@ -127,6 +147,14 @@ type Message_Pong struct {
 	Pong *Pong `protobuf:"bytes,4,opt,name=pong,proto3,oneof"`
 }
 
+type Message_GoAway struct {
+	GoAway *GoAway `protobuf:"bytes,5,opt,name=go_away,json=goAway,proto3,oneof"`
+}
+
+type Message_Shutdown struct {
+	Shutdown *Shutdown `protobuf:"bytes,6,opt,name=shutdown,proto3,oneof"`
+}
+
 func (*Message_Version) isMessage_Message() {}
 
 func (*Message_PeerList) isMessage_Message() {}
@@ -134,6 +162,10 @@ func (*Message_PeerList) isMessage_Message() {}
 func (*Message_Ping) isMessage_Message() {}
 
 func (*Message_Pong) isMessage_Message() {}
+
+func (*Message_GoAway) isMessage_Message() {}
+
+func (*Message_Shutdown) isMessage_Message() {}
 
 type PeerList struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
@@ -255,6 +287,95 @@ func (x *TrustedPeer) GetSignature() []byte {
 	return nil
 }
 
+type GoAway struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Reason        string                 `protobuf:"bytes,1,opt,name=reason,proto3" json:"reason,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GoAway) Reset() {
+	*x = GoAway{}
+	mi := &file_p2p_p2p_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GoAway) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GoAway) ProtoMessage() {}
+
+func (x *GoAway) ProtoReflect() protoreflect.Message {
+	mi := &file_p2p_p2p_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GoAway.ProtoReflect.Descriptor instead.
+func (*GoAway) Descriptor() ([]byte, []int) {
+	return file_p2p_p2p_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GoAway) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
+type Shutdown struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Optional reason
+	Reason        string `protobuf:"bytes,1,opt,name=reason,proto3" json:"reason,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Shutdown) Reset() {
+	*x = Shutdown{}
+	mi := &file_p2p_p2p_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Shutdown) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Shutdown) ProtoMessage() {}
+
+func (x *Shutdown) ProtoReflect() protoreflect.Message {
+	mi := &file_p2p_p2p_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Shutdown.ProtoReflect.Descriptor instead.
+func (*Shutdown) Descriptor() ([]byte, []int) {
+	return file_p2p_p2p_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *Shutdown) GetReason() string {
+	if x != nil {
+		return x.Reason
+	}
+	return ""
+}
+
 type Ping struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	unknownFields protoimpl.UnknownFields
@@ -263,7 +384,7 @@ type Ping struct {
 
 func (x *Ping) Reset() {
 	*x = Ping{}
-	mi := &file_p2p_p2p_proto_msgTypes[3]
+	mi := &file_p2p_p2p_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -275,7 +396,7 @@ func (x *Ping) String() string {
 func (*Ping) ProtoMessage() {}
 
 func (x *Ping) ProtoReflect() protoreflect.Message {
-	mi := &file_p2p_p2p_proto_msgTypes[3]
+	mi := &file_p2p_p2p_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -288,7 +409,7 @@ func (x *Ping) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Ping.ProtoReflect.Descriptor instead.
 func (*Ping) Descriptor() ([]byte, []int) {
-	return file_p2p_p2p_proto_rawDescGZIP(), []int{3}
+	return file_p2p_p2p_proto_rawDescGZIP(), []int{5}
 }
 
 type Pong struct {
@@ -299,7 +420,7 @@ type Pong struct {
 
 func (x *Pong) Reset() {
 	*x = Pong{}
-	mi := &file_p2p_p2p_proto_msgTypes[4]
+	mi := &file_p2p_p2p_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -311,7 +432,7 @@ func (x *Pong) String() string {
 func (*Pong) ProtoMessage() {}
 
 func (x *Pong) ProtoReflect() protoreflect.Message {
-	mi := &file_p2p_p2p_proto_msgTypes[4]
+	mi := &file_p2p_p2p_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -324,7 +445,7 @@ func (x *Pong) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Pong.ProtoReflect.Descriptor instead.
 func (*Pong) Descriptor() ([]byte, []int) {
-	return file_p2p_p2p_proto_rawDescGZIP(), []int{4}
+	return file_p2p_p2p_proto_rawDescGZIP(), []int{6}
 }
 
 type Version struct {
@@ -341,7 +462,7 @@ type Version struct {
 
 func (x *Version) Reset() {
 	*x = Version{}
-	mi := &file_p2p_p2p_proto_msgTypes[5]
+	mi := &file_p2p_p2p_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -353,7 +474,7 @@ func (x *Version) String() string {
 func (*Version) ProtoMessage() {}
 
 func (x *Version) ProtoReflect() protoreflect.Message {
-	mi := &file_p2p_p2p_proto_msgTypes[5]
+	mi := &file_p2p_p2p_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -366,7 +487,7 @@ func (x *Version) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Version.ProtoReflect.Descriptor instead.
 func (*Version) Descriptor() ([]byte, []int) {
-	return file_p2p_p2p_proto_rawDescGZIP(), []int{5}
+	return file_p2p_p2p_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *Version) GetNodeId() string {
@@ -415,12 +536,14 @@ var File_p2p_p2p_proto protoreflect.FileDescriptor
 
 const file_p2p_p2p_proto_rawDesc = "" +
 	"\n" +
-	"\rp2p/p2p.proto\x12\x03p2p\"\xae\x01\n" +
+	"\rp2p/p2p.proto\x12\x03p2p\"\x83\x02\n" +
 	"\aMessage\x12(\n" +
 	"\aversion\x18\x01 \x01(\v2\f.p2p.VersionH\x00R\aversion\x12,\n" +
 	"\tpeer_list\x18\x02 \x01(\v2\r.p2p.PeerListH\x00R\bpeerList\x12\x1f\n" +
 	"\x04ping\x18\x03 \x01(\v2\t.p2p.PingH\x00R\x04ping\x12\x1f\n" +
-	"\x04pong\x18\x04 \x01(\v2\t.p2p.PongH\x00R\x04pongB\t\n" +
+	"\x04pong\x18\x04 \x01(\v2\t.p2p.PongH\x00R\x04pong\x12&\n" +
+	"\ago_away\x18\x05 \x01(\v2\v.p2p.GoAwayH\x00R\x06goAway\x12+\n" +
+	"\bshutdown\x18\x06 \x01(\v2\r.p2p.ShutdownH\x00R\bshutdownB\t\n" +
 	"\amessage\"2\n" +
 	"\bPeerList\x12&\n" +
 	"\x05peers\x18\x01 \x03(\v2\x10.p2p.TrustedPeerR\x05peers\"\x98\x01\n" +
@@ -430,7 +553,11 @@ const file_p2p_p2p_proto_rawDesc = "" +
 	"public_key\x18\x02 \x01(\fR\tpublicKey\x12\x18\n" +
 	"\aaddress\x18\x03 \x01(\tR\aaddress\x12\"\n" +
 	"\fcapabilities\x18\x04 \x03(\tR\fcapabilities\x12\x1c\n" +
-	"\tsignature\x18\x05 \x01(\fR\tsignature\"\x06\n" +
+	"\tsignature\x18\x05 \x01(\fR\tsignature\" \n" +
+	"\x06GoAway\x12\x16\n" +
+	"\x06reason\x18\x01 \x01(\tR\x06reason\"\"\n" +
+	"\bShutdown\x12\x16\n" +
+	"\x06reason\x18\x01 \x01(\tR\x06reason\"\x06\n" +
 	"\x04Ping\"\x06\n" +
 	"\x04Pong\"\xaf\x01\n" +
 	"\aVersion\x12\x17\n" +
@@ -454,26 +581,30 @@ func file_p2p_p2p_proto_rawDescGZIP() []byte {
 	return file_p2p_p2p_proto_rawDescData
 }
 
-var file_p2p_p2p_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_p2p_p2p_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_p2p_p2p_proto_goTypes = []any{
 	(*Message)(nil),     // 0: p2p.Message
 	(*PeerList)(nil),    // 1: p2p.PeerList
 	(*TrustedPeer)(nil), // 2: p2p.TrustedPeer
-	(*Ping)(nil),        // 3: p2p.Ping
-	(*Pong)(nil),        // 4: p2p.Pong
-	(*Version)(nil),     // 5: p2p.Version
+	(*GoAway)(nil),      // 3: p2p.GoAway
+	(*Shutdown)(nil),    // 4: p2p.Shutdown
+	(*Ping)(nil),        // 5: p2p.Ping
+	(*Pong)(nil),        // 6: p2p.Pong
+	(*Version)(nil),     // 7: p2p.Version
 }
 var file_p2p_p2p_proto_depIdxs = []int32{
-	5, // 0: p2p.Message.version:type_name -> p2p.Version
+	7, // 0: p2p.Message.version:type_name -> p2p.Version
 	1, // 1: p2p.Message.peer_list:type_name -> p2p.PeerList
-	3, // 2: p2p.Message.ping:type_name -> p2p.Ping
-	4, // 3: p2p.Message.pong:type_name -> p2p.Pong
-	2, // 4: p2p.PeerList.peers:type_name -> p2p.TrustedPeer
-	5, // [5:5] is the sub-list for method output_type
-	5, // [5:5] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	5, // 2: p2p.Message.ping:type_name -> p2p.Ping
+	6, // 3: p2p.Message.pong:type_name -> p2p.Pong
+	3, // 4: p2p.Message.go_away:type_name -> p2p.GoAway
+	4, // 5: p2p.Message.shutdown:type_name -> p2p.Shutdown
+	2, // 6: p2p.PeerList.peers:type_name -> p2p.TrustedPeer
+	7, // [7:7] is the sub-list for method output_type
+	7, // [7:7] is the sub-list for method input_type
+	7, // [7:7] is the sub-list for extension type_name
+	7, // [7:7] is the sub-list for extension extendee
+	0, // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_p2p_p2p_proto_init() }
@@ -486,6 +617,8 @@ func file_p2p_p2p_proto_init() {
 		(*Message_PeerList)(nil),
 		(*Message_Ping)(nil),
 		(*Message_Pong)(nil),
+		(*Message_GoAway)(nil),
+		(*Message_Shutdown)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -493,7 +626,7 @@ func file_p2p_p2p_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_p2p_p2p_proto_rawDesc), len(file_p2p_p2p_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
